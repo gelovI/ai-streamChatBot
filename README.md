@@ -70,7 +70,7 @@ Um Tailwind CSS für die Gestaltung zu verwenden:
 - **WebSocket-Kommunikation**: Senden und Empfangen von Nachrichten in Echtzeit.
 - **Tailwind CSS Styling**: Modernes und responsives Design für die Benutzeroberfläche.
 - **KI-Integration**: Echtzeit-Antworten durch Ollama KI-API.
-- **Avatar und Ladeanzeige**: Ein Avatar für die KI und ein Ladeindikator werden während des Antwortvorgangs angezeigt, um die Benutzererfahrung zu verbessern.
+- **Avatar**: Ein Avatar für die KI
 
 ## Ordnerstruktur
 
