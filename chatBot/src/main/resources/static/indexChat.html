@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link href="/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-400 p-8">
+<div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div id="chat" class="mb-4 max-h-80 overflow-y-auto"></div>
+    <div id="loadingSpinner" class="hidden flex items-center justify-center mb-4">
+        <img src="./images/loading-kreis.png" alt="Loading..." style="width: 30px; height: 30px;">
+    </div>
+    <div class="flex items-center">
+        <input type="text" id="message" placeholder="Nachricht eingeben..." class="w-full p-2 border border-gray-300 rounded">
+        <button onclick="sendMessage()" class="ml-2 bg-blue-500 text-white p-2 rounded">Senden</button>
+    </div>
+</div>
+
+<script>
+    let socket = new WebSocket("ws://localhost:8080/chat");
+
+    socket.onmessage = function(event) {
+        let chat = document.getElementById("chat");
+        let messageWrapper = document.createElement("div");
+        messageWrapper.classList.add("flex", "items-start", "mb-4");
+
+        if (event.data.startsWith("You: ")) {
+         let message = document.createElement("div");
+         message.classList.add("p-2", "bg-green-100", "rounded", "ml-auto");
+         message.textContent = event.data.replace("You: ", "");
+         messageWrapper.appendChild(message);
+        } else {
+         let avatarContainer = document.createElement("div");
+         avatarContainer.classList.add("mr-2", "flex-shrink-0");
+
+         let avatar = document.createElement("img");
+         avatar.src = "./images/chatbot_avatar3.png";
+         avatar.alt = "Chatbot Avatar";
+         avatar.style.width = "30px";
+         avatar.style.height = "30px";
+         avatar.style.marginTop = "4px";
+
+         avatarContainer.appendChild(avatar);
+
+         let message = document.createElement("div");
+         message.classList.add("p-2", "bg-gray-200", "rounded");
+         message.textContent = event.data.replace("AI: ", "");
+
+         messageWrapper.appendChild(avatarContainer);
+         messageWrapper.appendChild(message);
+        }
+
+        chat.appendChild(messageWrapper);
+    };
+
+    let messageInput = document.getElementById("message");
+    messageInput.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        let messageInput = document.getElementById("message");
+        let message = messageInput.value;
+        socket.send(message);
+        messageInput.value = "";
+    }
+</script>
+</body>
+</html>

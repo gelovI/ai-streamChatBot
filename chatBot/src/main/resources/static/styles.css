@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#chat {
+    background-image: url('./images/hintergrund_chat.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 20px;
+}
